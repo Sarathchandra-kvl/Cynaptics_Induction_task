@@ -155,7 +155,7 @@ with torch.no_grad():
 import csv
 import re
 
-# Class mapping: 1 -> 'Real', 0 -> 'AI'
+
 class_mapping = {0: "Real", 1: "AI"}
 
 # List to store the predictions
@@ -169,29 +169,28 @@ with torch.no_grad():
     for images, file_names in test_loader:
         images = images.to(device)
 
-        # Iterate over the images in the current batch
         for i, image in enumerate(images):
             
             # Forward pass through the model for each image
-            output = model(image.unsqueeze(0))  # Add batch dimension
-            _, predicted = torch.max(output, 1)  # Get the predicted class
+            output = model(image.unsqueeze(0)) 
+            _, predicted = torch.max(output, 1)  
             predicted_label = class_mapping[predicted.item()]  # Get label based on class mapping
             
 
             # Store prediction (file_name, predicted_label) in the dictionary
             predictions[file_names[i]] = predicted_label
 
-# ** Modification: Sorting the file names numerically **
+
 def sort_numerically(file_name):
     # Extract numbers from the file name using regex
     match = re.search(r'\d+', file_name)
-    return int(match.group()) # Handle cases with no numbers gracefully
+    return int(match.group()) # To Handle cases with no numbers 
 
 sorted_predictions = dict(sorted(predictions.items(), key=lambda item: sort_numerically(item[0])))
 # Write predictions to the CSV file
 with open('C:\\Users\\Sarat\\OneDrive\\Desktop\\Cynaptics\\submission32.csv', 'w', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['Id', 'Label'])  # Write the header
+    writer.writerow(['Id', 'Label'])
 
     # Write each file name and its corresponding label to the CSV
     for file_name, label in sorted_predictions.items():
@@ -201,10 +200,4 @@ with open('C:\\Users\\Sarat\\OneDrive\\Desktop\\Cynaptics\\submission32.csv', 'w
 print("Predictions saved to 'submission32.csv'.")
 
 
-        # n_samples+=labels.size(0)
-        # n_correct+=(predicted==labels).sum().item()
-
-        
-    # acc = 100.0 * (n_correct / n_samples)
-    # print(f'The accuracy of network is : {acc} %')
 
