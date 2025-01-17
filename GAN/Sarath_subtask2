@@ -137,7 +137,6 @@ def train_discriminator(real_images, opt_d):
 
 def train_generator(opt_g):
     
-    # Clear generator gradients
     opt_g.zero_grad()
     
     # Generate fake images
@@ -149,7 +148,7 @@ def train_generator(opt_g):
     targets = torch.ones(batch_size, 1).to(device) #setting target 1 
     loss = F.binary_cross_entropy(preds, targets) 
     
-    # Update generator weights
+    # Update generator weights--applying feedback
     loss.backward()
     opt_g.step()
     
@@ -166,20 +165,20 @@ def run_GAN(epochs, lr, start_idx=1):
     for epoch in range(epochs):
         for real_images, _ in tqdm(train_dl):
             
-            # Train discriminator
+            # Training arc antagonist
             real_images= real_images.to(device)
             loss_disc, real_percent, fake_percent = train_discriminator(real_images, opt_disc)
             
-            # Train generator
+            # Train arc protagonist
             loss_gen, latent = train_generator(opt_gen)
             
             
         # Stats
         print(f"Epoch [{epoch+1}/{epochs}], loss_generator: {loss_gen:.6f}, loss_discriminator: {loss_disc:.6f}, percentage_real: {real_percent*100:.3f}%, percentage_fake: {fake_percent*100:.3f}%")
     
-        # Save generated images after each epoch
+        
         save_samples(epoch+start_idx, latent, show=False)
     
  
-run_GAN(epochs=num_epochs, lr=learning_rate) #set epochs to 40 or more for better results
+run_GAN(epochs=num_epochs, lr=learning_rate) 
 
