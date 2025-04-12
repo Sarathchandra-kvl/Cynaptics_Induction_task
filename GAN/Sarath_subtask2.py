@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Dataset directory
-direc = 'C:\\Users\\Sarat\\OneDrive\\Desktop\\Cynaptics_Task 2'
+direc = 'Enter your dataset directory here'
 
 # Hyper parameters
 image_size = 64
@@ -93,7 +93,7 @@ def denorm(img_tensors):
 
 #To save the samples produced during epochs
 
-sample_dir = 'C:\\Users\\Sarat\\OneDrive\\Desktop\\Cynaptics\\testdata3'
+sample_dir = 'Enter directory to save the samples produced'
 os.makedirs(sample_dir, exist_ok=True)
 
 def save_samples(index, latent_tensors, show=True):
