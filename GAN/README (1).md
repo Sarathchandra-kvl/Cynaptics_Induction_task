@@ -77,10 +77,5 @@ Input images are normalized to `[-1, 1]` and the generator uses `Tanh()` for com
 
 ---
 
-## 📃 License
 
-This project is provided for educational purposes.
 
----
-
-Created with ❤️ by Sarathchandra
